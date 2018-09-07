@@ -80,7 +80,34 @@
                     </archive>
                 </configuration>
             </plugin>
-    
+
+
+            <!--https://github.com/dingxin/proguard-maven-plugin-->
+            <plugin>
+                <groupId>com.github.dingxin</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>1.0.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>proguard</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <options>
+                        <option>-dontwarn</option>
+                        <option>-keep public class ru.otus.l011.Main.**</option>
+                    </options>
+                    <injar>One-jar-with-dependencies.jar</injar>
+                    <outjar>${project.build.finalName}-with-dep-obfuscation.jar</outjar>
+                    <libs>
+                        <lib>${java.home}/jmods/java.base.jmod(!**.jar;!module-info.class)</lib>
+                    </libs>
+                </configuration>
+            </plugin>
+            
         </plugins>
 
     </build>
