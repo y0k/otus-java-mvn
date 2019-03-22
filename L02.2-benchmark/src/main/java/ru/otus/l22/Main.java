@@ -12,10 +12,10 @@ public class Main {
         benchmark.measure(Object::new, "Object" );
         benchmark.clean();
 
-        benchmark.measure(String::, "String" );
+        benchmark.measure(String::new, "String with pool" );
         benchmark.clean();
 
-        benchmark.measure(() -> new String(new byte[0])), "String of list bytes");
+        benchmark.measure(() -> new String(new byte[0]), "String");
         benchmark.clean();
 
         benchmark.measure(() -> new Benchmark(10), "Benchmark(10)");
