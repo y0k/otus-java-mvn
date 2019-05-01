@@ -49,7 +49,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.l011.Main</mainClass>
+                            <mainClass>ru.otus.l011.HelloOtus</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -75,7 +75,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.l011.Main</mainClass>
+                            <mainClass>ru.otus.l011.HelloOtus</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
