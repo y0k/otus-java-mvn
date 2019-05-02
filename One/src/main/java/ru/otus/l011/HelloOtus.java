@@ -4,7 +4,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 
 /**
- *
+ * Pullrequest trying
  * To start the application:
  * mvn package
  * java -cp ./target/L01.1-maven.jar ru.otus.l011.HelloOtus
