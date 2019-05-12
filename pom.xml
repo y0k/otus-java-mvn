@@ -4,33 +4,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Project Object Model -->
-    <!-- All POMs extend the Super POM unless explicitly set -->
-    <!--parent>*</parent-->
-
     <groupId>ru.otus</groupId>
-    <artifactId>OtusJavaHW</artifactId>
+    <artifactId>otusJavaHW</artifactId>
+    <packaging>pom</packaging>
     <version>2019-03</version>
-
-    <description>HW</description>
-
-    <developers>
-        <developer>
-            <name>y0k</name>
-        </developer>
-    </developers>
-
     <modules>
         <module>One</module>
-        <module>hw2array</module>
+
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.version>3.8.0</maven.compiler.version>
         <com.google.guava.version>27.1-jre</com.google.guava.version>
-        <my.variable>42</my.variable>
+        <org.apache.maven.plugins.maven-assembly-plugin.version>3.1.1</org.apache.maven.plugins.maven-assembly-plugin.version>
+        <org.junit.jupiter.junit-jupiter-engine>5.4.0</org.junit.jupiter.junit-jupiter-engine>
     </properties>
 
     <dependencyManagement>
@@ -40,10 +30,14 @@
                 <artifactId>guava</artifactId>
                 <version>${com.google.guava.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${org.junit.jupiter.junit-jupiter-engine}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <packaging>pom</packaging>
 
     <build>
         <pluginManagement>
@@ -51,11 +45,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>${org.apache.maven.plugins.maven-assembly-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
     </build>
+
 
 
 </project>

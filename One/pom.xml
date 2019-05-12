@@ -2,22 +2,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>otusJavaHW</artifactId>
+        <groupId>ru.otus</groupId>
+        <version>2019-03</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
     
     <!--POM -->
-    <name>One</name>
+    <!--<name>One</name>
     <description>Code for L01.1</description>
     <developers>
         <developer>
             <name>y0k</name>
         </developer>
-    </developers>
+    </developers>-->
     <!-- All POMs extend the Super POM unless explicitly set -->
     <!--parent>*</parent-->
-
-    <groupId>ru.otus</groupId>
     <artifactId>One</artifactId>
-    <version>2018-08</version>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
