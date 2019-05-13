@@ -1,6 +1,7 @@
 package ru.otus.hw02;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /*
  * DIY ArrayList
@@ -21,6 +22,8 @@ public class DIYarrayList<T> implements List<T> {
     /*Размер листа*/
     private int size;
 
+    private int modCount = 0;
+
     /*массив для хранения элементов коллекции*/
     private Object[] dataArray;
 
@@ -36,6 +39,7 @@ public class DIYarrayList<T> implements List<T> {
     private class DIYarrayListIterator implements ListIterator<T> {
         int cursor;     // индекс следующего элемента для возврата
         int lastRet = -1; // индекс последнего возвращаемого элемента
+        int expectedModCount = modCount;
 
         /*конструктор*/
         DIYarrayListIterator() {
@@ -86,7 +90,52 @@ public class DIYarrayList<T> implements List<T> {
 
         @Override
         public void remove() {
+            if (lastRet < 0)
+                throw new   IllegalStateException();
+            checkForComodification();
 
+            try {
+                DIYarrayList.this.remove(lastRet);
+                cursor = lastRet;
+                lastRet = -1;
+                expectedModCount = modCount;
+            } catch (IndexOutOfBoundsException ex) {
+                throw new ConcurrentModificationException();
+            }
+
+
+            @Override
+            public void sort(Comparator<? super T> c) {
+                Arrays.sort((T[]) dataArray, 0, size, c);
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        static <T> T elementAt(Object[] es, int index) {
+            return (T) es[index];
+        }
+
+        @Override
+        public void forEachRemaining(Consumer<? super T> action) {
+            Objects.requireNonNull(action);
+            final int size = DIYarrayList.this.size;
+            int i = cursor;
+            if (i < size) {
+                final Object[] es = dataArray;
+                if (i >= es.length)
+                    throw new ConcurrentModificationException();
+                for (; i < size && modCount == expectedModCount; i++)
+                    action.accept(elementAt(es, i));
+
+                cursor = i;
+                lastRet = i - 1;
+                checkForComodification();
+            }
+        }
+
+        final void checkForComodification() {
+            if (modCount != expectedModCount)
+                throw new ConcurrentModificationException();
         }
 
         /*помещаем элемент в лист данных*/
@@ -140,6 +189,7 @@ public class DIYarrayList<T> implements List<T> {
 
     /*расширяет массив*/
     private Object[] grow(int minCapacity) {
+        modCount++;
         return dataArray = Arrays.copyOf(dataArray, minCapacity);
     }
 
@@ -153,6 +203,7 @@ public class DIYarrayList<T> implements List<T> {
         if (s == dataArray.length)
             dataArray = grow();
         dataArray[s] = e;
+        modCount++;
         size = s + 1;
     }
 
@@ -169,14 +220,24 @@ public class DIYarrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(Collection c) {
-        throw new UnsupportedOperationException();
+    public boolean addAll(Collection<? extends T> c) {
+        /*throw new UnsupportedOperationException();*/
+        Object[] a = c.toArray();
+        int numNew = a.length;
+        if (numNew == 0)
+            return false;
+        if (numNew > dataArray.length - size)
+            dataArray = grow(size + numNew);
+        System.arraycopy(a, 0, dataArray, size, numNew);
+        modCount++;
+        size = size + numNew;
+        return true;
     }
 
-    @Override
+   /* @Override
     public boolean addAll(int index, Collection c) {
         throw new UnsupportedOperationException();
-    }
+    }*/
 
     @Override
     public void clear() {
@@ -236,17 +297,17 @@ public class DIYarrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean retainAll(Collection c) {
+    public boolean retainAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean removeAll(Collection c) {
+    public boolean removeAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean containsAll(Collection c) {
+    public boolean containsAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
