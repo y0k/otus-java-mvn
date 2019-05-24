@@ -20,9 +20,9 @@ public class Main {
         for (char c = 'z'; c>= 'a'; c--) {
             diYarrayList_1.add(Character.toString(c));
         }
-        diYarrayList_1.add("A");
-        diYarrayList_1.add("B");
-        diYarrayList_1.add("c");
+        diYarrayList_1.add("Z");
+        diYarrayList_1.add("Y");
+        diYarrayList_1.add("x");
         diYarrayList_1.add("a");
 
         /*1*/

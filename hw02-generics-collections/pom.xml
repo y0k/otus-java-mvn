@@ -11,6 +11,18 @@
 
     <artifactId>hw02-generics-collections</artifactId>
     <name>hw02-generics-collections</name>
+    <dependencies>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+    </dependencies>
 
     <packaging>jar</packaging>
 
