@@ -89,7 +89,7 @@ public class DIYarrayList<T> implements List<T> {
 
         }
 
-        /*помещаем элемент в лист данных*/
+        /*помещаем элемент в лист данных!*/
         @Override
         public void set(T t) {
             if (lastRet < 0)
