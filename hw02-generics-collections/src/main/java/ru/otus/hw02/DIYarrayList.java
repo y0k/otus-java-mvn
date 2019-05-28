@@ -25,7 +25,9 @@ public class DIYarrayList<T> implements List<T> {
     private Object[] dataArray;
 
     /*пустой массив для инициализации пустого значения коллекции*/
-    private static final Object[] EMPTY_ARRAY = {};
+    private static final Object[] EMPTY_ARRAY = {
+    };
+    private static final int CAPACITY_INCREMENT = 2;
 
     /*конструктор. подставляем пустой массив*/
     public DIYarrayList() {
@@ -66,27 +68,27 @@ public class DIYarrayList<T> implements List<T> {
 
         @Override
         public boolean hasPrevious() {
-            return false;
-        }
+            throw new UnsupportedOperationException();        }
 
         @Override
         public T previous() {
-            return null;
-        }
+            throw new UnsupportedOperationException();        }
 
         @Override
         public int nextIndex() {
-            return 0;
+/*
+            return cursor;
+*/
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public int previousIndex() {
-            return 0;
-        }
+            throw new UnsupportedOperationException();        }
 
         @Override
         public void remove() {
-
+            throw new UnsupportedOperationException();
         }
 
         /*помещаем элемент в лист данных!*/
@@ -104,7 +106,6 @@ public class DIYarrayList<T> implements List<T> {
 
         @Override
         public void add(T t) {
-
         }
     }
 
@@ -144,8 +145,10 @@ public class DIYarrayList<T> implements List<T> {
     }
 
     private Object[] grow() {
-        return grow(size + 1);
+        return this.grow(size + CAPACITY_INCREMENT);
+
     }
+
 
     /*добавляет элемент в лист*/
     private void add(T e, Object[] dataArray, int s) {
@@ -154,7 +157,7 @@ public class DIYarrayList<T> implements List<T> {
             dataArray = grow();
         dataArray[s] = e;
         size = s + 1;
-    }
+            }
 
     /*добавляем элемент в лист данных*/
     @Override
@@ -171,7 +174,7 @@ public class DIYarrayList<T> implements List<T> {
     @Override
     public boolean addAll(Collection c) {
         throw new UnsupportedOperationException();
-    }
+            }
 
     @Override
     public boolean addAll(int index, Collection c) {
@@ -186,7 +189,8 @@ public class DIYarrayList<T> implements List<T> {
     /*получаем элемент по индексу*/
     @Override
     public T get(int index) {
-        return (T) dataArray[index];
+        Objects.checkIndex(index, size);
+        return (T) this.dataArray[index];
     }
 
     /*устанавливаем элемент в индекс*/
@@ -264,6 +268,4 @@ public class DIYarrayList<T> implements List<T> {
         }
         return sb.toString();
     }
-
-
 }
