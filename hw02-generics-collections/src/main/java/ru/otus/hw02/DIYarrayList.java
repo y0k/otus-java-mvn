@@ -35,6 +35,17 @@ public class DIYarrayList<T> implements List<T> {
         this.dataArray = EMPTY_ARRAY;
     }
 
+    public DIYarrayList(int initialCapacity) {
+        if (initialCapacity > 0) {
+            this.dataArray = new Object[initialCapacity];
+            this.size = initialCapacity;
+        } else if (initialCapacity == 0) {
+            this.dataArray = EMPTY_ARRAY;
+        } else  {
+            throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+        }
+    }
+
     /*класс итератора*/
     private class DIYarrayListIterator implements ListIterator<T> {
         int cursor;     // индекс следующего элемента для возврата
