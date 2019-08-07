@@ -4,6 +4,7 @@ import org.junit.jupiter.api.TestInfo;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,4 +33,9 @@ public class TestStarter {
         }
         return methods;
     }
+    private static void addResultToLog(Method method, TestStatus status) {
+        String message = "End: [" + method.getName() + "] Status: [" + status + "]";
+        System.out.println(message);
+    }
+    private static void addGeneralResultToLog(Class clazz, List<Tes>)
 }
