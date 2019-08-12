@@ -37,12 +37,12 @@ public class MyTest {
     }
 
     @After
-    public void teadDown1() {
+    public void setDown1() {
         System.out.println("After 1");
     }
 
     @After
-    public void teadDown2() {
+    public void setDown2() {
         System.out.println("After 2");
     }
 }
