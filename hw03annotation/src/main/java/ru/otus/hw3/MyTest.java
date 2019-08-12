@@ -18,22 +18,22 @@ public class MyTest {
 
     @Test
     public void test1() {
-        System.out.println("test1");
+        System.out.println("test 1");
     }
 
     @Test
     public void test2() {
-        System.out.println("test2");
+        System.out.println("test 2");
     }
 
     @Test
     public void test3() {
-        System.out.println("test3"); throw new RuntimeException();
+        System.out.println("test 3"); throw new RuntimeException();
     }
 
     @Test
     private void test4() {
-        System.out.println("test4");
+        System.out.println("test 4");
     }
 
     @After
