@@ -11,10 +11,8 @@ import java.util.List;
 
 @SuppressWarnings("ALL")
 public class TestStarter {
-    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
-        runTest ("ru.otus.hw3.MyTest");
-    }
-    private static void runTest(String className) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+
+    static void runTest(String className) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         List<TestInfo> generalResult = new ArrayList<>();
         Class<?> clazz = Class.forName(className);
         List<Method> beforeMethods = getMethodsByAnnotations(clazz, Before.class);
@@ -26,6 +24,20 @@ public class TestStarter {
             try {
                 runMethods(instance, beforeMethods);
                 runMethod(instance, testMethod);
+                runMethods(instance, afterMethods);
+                addResultToLog(testMethod, TestInfo.PASSED);
+                generalResult.add(TestInfo.PASSED);
+            } catch (IllegalAccessException e) {
+                addResultToLog(testMethod, TestInfo.BROKEN);
+                generalResult.add(TestInfo.BROKEN);
+            } catch (InvocationTargetException e) {
+                addResultToLog(testMethod, TestInfo.FAILED);
+                generalResult.add(TestInfo.FAILED);
+            }
+        }
+        for (Method testMethod : testMethods) {
+            Object instance = instantiate(clazz);
+            try {
                 runMethods(instance, afterMethods);
                 addResultToLog(testMethod, TestInfo.PASSED);
                 generalResult.add(TestInfo.PASSED);
@@ -69,9 +81,9 @@ public class TestStarter {
         System.out.println(message);
     }
 
-    private static void addGeneralResultToLog(Class cl, List<TestInfo> testStatuses) {
+    private static void addGeneralResultToLog(Class clazz, List<TestInfo> testStatuses) {
         String message = "Testing completed. " +
-                cl.getName() + ": " +
+                clazz.getName() + ": " +
                 Collections.frequency(testStatuses, TestInfo.PASSED) + " PASSED, " +
                 Collections.frequency(testStatuses, TestInfo.BROKEN) + " BROKEN, " +
                 Collections.frequency(testStatuses, TestInfo.FAILED) + " FAILED. \n";
