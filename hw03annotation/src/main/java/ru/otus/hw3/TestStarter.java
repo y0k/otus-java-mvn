@@ -32,21 +32,22 @@ public class TestStarter {
             } catch (InvocationTargetException e) {
                 addResultToLog(testMethod, TestInfo.FAILED);
                 generalResult.add(TestInfo.FAILED);
+            } finally {
+                try {
+                    runMethods(instance, afterMethods);
+                    addResultToLog(testMethod, TestInfo.AFTER_PASSED);
+                    generalResult.add(TestInfo.AFTER_PASSED);
+                } catch (IllegalAccessException e) {
+                    addResultToLog(testMethod, TestInfo.BROKEN);
+                    generalResult.add(TestInfo.BROKEN);
+                } catch (InvocationTargetException e) {
+                    addResultToLog(testMethod, TestInfo.FAILED);
+                    generalResult.add(TestInfo.FAILED);
+
+                }
             }
-        }
-        for (Method testMethod : testMethods) {
-            Object instance = instantiate(clazz);
-            try {
-                runMethods(instance, afterMethods);
-                addResultToLog(testMethod, TestInfo.PASSED);
-                generalResult.add(TestInfo.PASSED);
-            } catch (IllegalAccessException e) {
-                addResultToLog(testMethod, TestInfo.BROKEN);
-                generalResult.add(TestInfo.BROKEN);
-            } catch (InvocationTargetException e) {
-                addResultToLog(testMethod, TestInfo.FAILED);
-                generalResult.add(TestInfo.FAILED);
-            }
+
+
         }
         addGeneralResultToLog(clazz, generalResult);
     }
