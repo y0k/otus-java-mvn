@@ -1,13 +1,12 @@
 package ru.otus.hw3;
 
-
-
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static ru.otus.hw3.Helper.*;
 
 @SuppressWarnings("ALL")
 public class TestStarter {
@@ -52,30 +51,6 @@ public class TestStarter {
         addGeneralResultToLog(clazz, generalResult);
     }
 
-    private static Object instantiate(Class<?> clazz) throws IllegalAccessException, InstantiationException {
-        return clazz.newInstance();
-    }
-
-    private static void runMethod(Object instance, Method method, Object... methodParameters)
-            throws InvocationTargetException, IllegalAccessException {
-        method.invoke(instance, methodParameters);
-    }
-
-    private static void runMethods(Object instance, List<Method> methods)
-            throws InvocationTargetException, IllegalAccessException {
-        for (Method method : methods) {
-            runMethod(instance, method, null);
-        }
-    }
-
-    private static List<Method> getMethodsByAnnotations(Class<?> clazz, Class<? extends Annotation> annotation) {
-        List<Method> methods = new ArrayList<>();
-        for (Method method: clazz.getDeclaredMethods()) {
-            if(method.isAnnotationPresent(annotation))
-                methods.add(method);
-        }
-        return methods;
-    }
     private static void addResultToLog(Method method, TestInfo status) {
         String message = "End: [" + method.getName() + "] Status: [" + status + "]";
         System.out.println(message);

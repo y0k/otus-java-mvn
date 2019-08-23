@@ -7,13 +7,13 @@ public class MyTest {
     }
 
     @Before
-    @Order(value = 2)
+    @Order(value = 1)
     public void setUp1() {
         System.out.println("Before 1");
     }
 
     @Before
-    @Order(value = 1)
+    @Order(value = 2)
     public void setUp2() {
         System.out.println("Before 2");
     }
