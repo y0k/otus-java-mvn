@@ -7,7 +7,7 @@
     <groupId>ru.otus</groupId>
     <artifactId>otusJavaHW</artifactId>
 
-    <version>2019-03</version>
+    <version>2019-09</version>
 
     <description>Code examples for HW</description>
 
@@ -21,6 +21,7 @@
         <module>One</module>
         <module>hw02-generics-collections</module>
         <module>hw03annotation</module>
+        <module>hw3-GC</module>
     </modules>
 
     <properties>
