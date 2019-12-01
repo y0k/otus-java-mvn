@@ -5,11 +5,9 @@ import java.util.List;
 
 class Benchmark implements BenchmarkMBean {
   private final int loopCounter;
-  private double breakPoint;
 
   public Benchmark(int loopCounter) {
     this.loopCounter = loopCounter;
-    this.breakPoint = loopCounter * 0.99;
   }
 
   private static List<Object> objContainer = new ArrayList<>();
@@ -18,8 +16,7 @@ class Benchmark implements BenchmarkMBean {
 
     long beginTime = System.currentTimeMillis();
 
-
-    while (objContainer.size() < breakPoint ) {
+    while (objContainer.size() < loopCounter ) {
       for (double i = 0; i < loopCounter; i++) {
         Object newObj = i;
         objContainer.add(newObj);
@@ -31,7 +28,7 @@ class Benchmark implements BenchmarkMBean {
       System.out.println("after remove: " + objContainer.size());
 
       System.out.println("time: " + (System.currentTimeMillis() - beginTime) +"ms");
-      Thread.sleep(1000);
+      Thread.sleep(10000);
     }
     System.out.println("total time: " + (System.currentTimeMillis() - beginTime)+"ms");
 
