@@ -21,6 +21,8 @@
         <module>One</module>
         <module>hw02-generics-collections</module>
         <module>hw03annotation</module>
+        <module>hw3-GC</module>
+        <module>hw6-atm</module>
     </modules>
 
     <properties>
