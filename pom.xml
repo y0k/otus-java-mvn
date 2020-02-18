@@ -20,6 +20,7 @@
     <modules>
         <module>One</module>
         <module>hw02-generics-collections</module>
+        <module>hw03annotation</module>
     </modules>
 
     <properties>
