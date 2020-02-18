@@ -25,14 +25,6 @@ public class Atm {
         }
     }
 
-    public void printAllMoney() {
-        if (totalMoney() != 0) {
-            System.out.println("Доступно " + totalMoney());
-        } else {
-            System.out.println("Средства закончились");
-        }
-    }
-
     public int totalMoney() {
         return (cas.casTen.size() * 10 + cas.casFift.size() * 50 + cas.casHundr.size() * 100 +cas.casFiveHundr.size() * 500 + cas.casThous.size() * 1000);
     }
@@ -67,5 +59,13 @@ public class Atm {
             }
         }
         return sum;
+    }
+
+    public void printAllMoney() {
+        if (totalMoney() != 0) {
+            System.out.println("Доступно: " + totalMoney());
+        } else {
+            System.out.println("Средства закончились");
+        }
     }
 }
