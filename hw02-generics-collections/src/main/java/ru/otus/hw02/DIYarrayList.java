@@ -1,6 +1,7 @@
 package ru.otus.hw02;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /*
  * DIY ArrayList
@@ -21,23 +22,35 @@ public class DIYarrayList<T> implements List<T> {
     /*Размер листа*/
     private int size;
 
+    private int modCount = 0;
+
     /*массив для хранения элементов коллекции*/
     private Object[] dataArray;
 
     /*пустой массив для инициализации пустого значения коллекции*/
-    private static final Object[] EMPTY_ARRAY = {
-    };
-    private static final int CAPACITY_INCREMENT = 2;
+    private static final Object[] EMPTY_ARRAY = {};
 
     /*конструктор. подставляем пустой массив*/
     public DIYarrayList() {
         this.dataArray = EMPTY_ARRAY;
     }
 
+    public DIYarrayList(int initialCapacity) {
+        if (initialCapacity > 0) {
+            this.dataArray = new Object[initialCapacity];
+            this.size = initialCapacity;
+        } else if (initialCapacity == 0) {
+            this.dataArray = EMPTY_ARRAY;
+        } else  {
+            throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+        }
+    }
+
     /*класс итератора*/
     private class DIYarrayListIterator implements ListIterator<T> {
         int cursor;     // индекс следующего элемента для возврата
         int lastRet = -1; // индекс последнего возвращаемого элемента
+        int expectedModCount = modCount;
 
         /*конструктор*/
         DIYarrayListIterator() {
@@ -68,30 +81,75 @@ public class DIYarrayList<T> implements List<T> {
 
         @Override
         public boolean hasPrevious() {
-            throw new UnsupportedOperationException();        }
+            return false;
+        }
 
         @Override
         public T previous() {
-            throw new UnsupportedOperationException();        }
+            return null;
+        }
 
         @Override
         public int nextIndex() {
-/*
-            return cursor;
-*/
-            throw new UnsupportedOperationException();
+            return 0;
         }
 
         @Override
         public int previousIndex() {
-            throw new UnsupportedOperationException();        }
+            return 0;
+        }
 
         @Override
         public void remove() {
-            throw new UnsupportedOperationException();
+            if (lastRet < 0)
+                throw new   IllegalStateException();
+            checkForComodification();
+
+            try {
+                DIYarrayList.this.remove(lastRet);
+                cursor = lastRet;
+                lastRet = -1;
+                expectedModCount = modCount;
+            } catch (IndexOutOfBoundsException ex) {
+                throw new ConcurrentModificationException();
+            }
+
+
+            @Override
+            public void sort(Comparator<? super T> c) {
+                Arrays.sort((T[]) dataArray, 0, size, c);
+            }
         }
 
-        /*помещаем элемент в лист данных!*/
+        @SuppressWarnings("unchecked")
+        static <T> T elementAt(Object[] es, int index) {
+            return (T) es[index];
+        }
+
+        @Override
+        public void forEachRemaining(Consumer<? super T> action) {
+            Objects.requireNonNull(action);
+            final int size = DIYarrayList.this.size;
+            int i = cursor;
+            if (i < size) {
+                final Object[] es = dataArray;
+                if (i >= es.length)
+                    throw new ConcurrentModificationException();
+                for (; i < size && modCount == expectedModCount; i++)
+                    action.accept(elementAt(es, i));
+
+                cursor = i;
+                lastRet = i - 1;
+                checkForComodification();
+            }
+        }
+
+        final void checkForComodification() {
+            if (modCount != expectedModCount)
+                throw new ConcurrentModificationException();
+        }
+
+        /*помещаем элемент в лист данных*/
         @Override
         public void set(T t) {
             if (lastRet < 0)
@@ -106,6 +164,7 @@ public class DIYarrayList<T> implements List<T> {
 
         @Override
         public void add(T t) {
+
         }
     }
 
@@ -141,23 +200,23 @@ public class DIYarrayList<T> implements List<T> {
 
     /*расширяет массив*/
     private Object[] grow(int minCapacity) {
+        modCount++;
         return dataArray = Arrays.copyOf(dataArray, minCapacity);
     }
 
     private Object[] grow() {
-        return this.grow(size + CAPACITY_INCREMENT);
-
+        return grow(size + 1);
     }
 
-
-    /*добавляет элемент в лист*/
+    /*добавляет эелемент в лист*/
     private void add(T e, Object[] dataArray, int s) {
 
         if (s == dataArray.length)
             dataArray = grow();
         dataArray[s] = e;
+        modCount++;
         size = s + 1;
-            }
+    }
 
     /*добавляем элемент в лист данных*/
     @Override
@@ -172,14 +231,24 @@ public class DIYarrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean addAll(Collection c) {
-        throw new UnsupportedOperationException();
-            }
+    public boolean addAll(Collection<? extends T> c) {
+        /*throw new UnsupportedOperationException();*/
+        Object[] a = c.toArray();
+        int numNew = a.length;
+        if (numNew == 0)
+            return false;
+        if (numNew > dataArray.length - size)
+            dataArray = grow(size + numNew);
+        System.arraycopy(a, 0, dataArray, size, numNew);
+        modCount++;
+        size = size + numNew;
+        return true;
+    }
 
-    @Override
+   /* @Override
     public boolean addAll(int index, Collection c) {
         throw new UnsupportedOperationException();
-    }
+    }*/
 
     @Override
     public void clear() {
@@ -189,8 +258,7 @@ public class DIYarrayList<T> implements List<T> {
     /*получаем элемент по индексу*/
     @Override
     public T get(int index) {
-        Objects.checkIndex(index, size);
-        return (T) this.dataArray[index];
+        return (T) dataArray[index];
     }
 
     /*устанавливаем элемент в индекс*/
@@ -240,17 +308,17 @@ public class DIYarrayList<T> implements List<T> {
     }
 
     @Override
-    public boolean retainAll(Collection c) {
+    public boolean retainAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean removeAll(Collection c) {
+    public boolean removeAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean containsAll(Collection c) {
+    public boolean containsAll(Collection<?> c) {
         throw new UnsupportedOperationException();
     }
 
@@ -268,4 +336,6 @@ public class DIYarrayList<T> implements List<T> {
         }
         return sb.toString();
     }
+
+
 }

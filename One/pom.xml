@@ -2,18 +2,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>otusJavaHW</artifactId>
-        <groupId>ru.otus</groupId>
-        <version>2019-09</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hw02-generics-collections</artifactId>
-    <name>hw02-generics-collections</name>
+
+    <parent>
+        <groupId>ru.otus</groupId>
+        <artifactId>otusJavaHW</artifactId>
+        <version>2019-09</version>
+    </parent>
+
+    <artifactId>One</artifactId>
+    <name>One</name>
+    
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+
+        </dependency>
+    </dependencies>
 
     <packaging>jar</packaging>
 
+    
     <build>
 
         <finalName>${project.name}</finalName>
@@ -23,6 +34,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <!--<version>3.0.0</version>-->
                 <configuration>
 
                     <descriptorRefs>
@@ -32,7 +44,7 @@
                     <!--<appendAssemblyId>false</appendAssemblyId>-->
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.hw02.Main</mainClass>
+                            <mainClass>ru.otus.l011.HelloOtus</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -46,10 +58,9 @@
                     </execution>
                 </executions>
             </plugin>
-
+    
         </plugins>
 
     </build>
-
-
+    
 </project>
