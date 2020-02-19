@@ -5,6 +5,36 @@ import java.util.ArrayList;
 public class Atm {
     private Cassete cas = new Cassete();
 
+    public void insertMoney(Nominal[] banknotes) {
+        for (Nominal banknote : banknotes) {
+            moneySort(banknote);
+        }
+    }
+
+    public void printMoney(int sum) {
+        if (sum % 10 == 0) {
+            sum = moneyGet(sum, 1000, cas.casThous);
+            sum = moneyGet(sum, 500, cas.casFiveHundr);
+            sum = moneyGet(sum, 100, cas.casHundr);
+            sum = moneyGet(sum, 50, cas.casFift);
+            sum = moneyGet(sum, 10, cas.casTen);
+        } else {
+            System.out.println("не кратно 10");
+        }
+    }
+
+    public void printAllMoney() {
+        if (totalMoney() != 0) {
+            System.out.println("Доступно: " + totalMoney());
+        } else {
+            System.out.println("Средства закончились");
+        }
+    }
+
+    public int totalMoney() {
+        return (cas.casTen.size() * 10 + cas.casFift.size() * 50 + cas.casHundr.size() * 100 +cas.casFiveHundr.size() * 500 + cas.casThous.size() * 1000);
+    }
+
     private void moneySort(Nominal banknote) {
         if (banknote.equals(Nominal.TEN)) {
             cas.casTen.add(banknote);
@@ -36,5 +66,4 @@ public class Atm {
         }
         return sum;
     }
-
 }
