@@ -22,6 +22,7 @@
         <module>hw02-generics-collections</module>
         <module>hw03annotation</module>
         <module>hw3-GC</module>
+        <module>Hw6Atm</module>
     </modules>
 
     <properties>
