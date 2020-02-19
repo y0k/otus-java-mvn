@@ -23,6 +23,7 @@
         <module>hw03annotation</module>
         <module>hw3-GC</module>
         <module>hwAtm</module>
+
     </modules>
 
     <properties>
@@ -71,6 +72,7 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.1.1</version>
+
                 </plugin>
             </plugins>
         </pluginManagement>
