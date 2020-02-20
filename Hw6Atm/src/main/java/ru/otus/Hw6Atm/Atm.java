@@ -1,67 +1,49 @@
 package ru.otus.Hw6Atm;
 
-import java.util.ArrayList;
+import java.util.EnumMap;
+import static ru.otus.Hw6Atm.Cassete.Nominal.*;
 
 public class Atm {
-    private Cassete cas = new Cassete();
+    Cassete cas = new Cassete(0);
 
-    public void insertMoney(Nominal[] banknotes) {
-        for (Nominal banknote : banknotes) {
-            moneySort(banknote);
+    private int sum;
+    private int nominalcount;
+    private int nominalvalue;
+
+    public void InsertMoney(int nominalvalue, int nominalcount) {
+        this.nominalcount = nominalcount;
+        this.nominalvalue = nominalvalue;
+        Cassete.Nominal nominal = getEnumByInt(nominalvalue);
+        if (nominal != null) {
+            cas.casmap.put(nominal, cas.nominalscount + nominalcount);
+                System.out.println("Внесли: "+nominalcount+" купюры номиналом "+nominalvalue);
         }
     }
 
     public void printMoney(int sum) {
+        this.sum = sum;
         if (sum % 10 == 0) {
-            sum = moneyGet(sum, 1000, cas.casThous);
-            sum = moneyGet(sum, 500, cas.casFiveHundr);
-            sum = moneyGet(sum, 100, cas.casHundr);
-            sum = moneyGet(sum, 50, cas.casFift);
-            sum = moneyGet(sum, 10, cas.casTen);
+            sum = moneyGet(sum, 1000, cas.casmap);
+            sum = moneyGet(sum, 500, cas.casmap);
+            sum = moneyGet(sum, 100, cas.casmap);
+            sum = moneyGet(sum, 50, cas.casmap);
+            sum = moneyGet(sum, 10, cas.casmap);
         } else {
             System.out.println("не кратно 10");
         }
     }
 
-    public void printAllMoney() {
-        if (totalMoney() != 0) {
-            System.out.println("Доступно: " + totalMoney());
-        } else {
-            System.out.println("Средства закончились");
-        }
-    }
-
-    public int totalMoney() {
-        return (cas.casTen.size() * 10 + cas.casFift.size() * 50 + cas.casHundr.size() * 100 +cas.casFiveHundr.size() * 500 + cas.casThous.size() * 1000);
-    }
-
-    private void moneySort(Nominal banknote) {
-        if (banknote.equals(Nominal.TEN)) {
-            cas.casTen.add(banknote);
-        } else if (banknote.equals(Nominal.FIFTY)) {
-            cas.casFift.add(banknote);
-        } else if (banknote.equals(Nominal.HUNDRED)) {
-            cas.casHundr.add(banknote);
-        } else if (banknote.equals(Nominal.FIVE_HUNDRED)) {
-            cas.casFiveHundr.add(banknote);
-        } else if (banknote.equals(Nominal.THOUSAND)) {
-            cas.casThous.add(banknote);
-        } else {
-            throw new RuntimeException("Неизвестный номинал");
-        }
-    }
-
-    private int moneyGet(int sum, int banknoteValue, ArrayList casType) {
+    private int moneyGet(int sum, int banknoteValue, EnumMap<Cassete.Nominal, Integer> casType) {
         if (sum / banknoteValue >= 1) {
-            if (casType.size() >= sum / banknoteValue) {
-                int count = sum / banknoteValue;
-                for (int i = 0; i < count; i++) {
-                    casType.remove(casType.size() - 1);
-                }
+            int count = sum / banknoteValue;
+            Cassete.Nominal nominal = Cassete.Nominal.getEnumByInt(banknoteValue);
+            if (casType.get(nominal) >= count) {
                 sum = sum - banknoteValue * count;
-                System.out.println("Возможно снять: " + banknoteValue * count);
+                assert nominal != null;
+                casType.put(nominal, casType.get(nominal) - count);
+                System.out.println(Cassete.Nominal.getEnumByInt(banknoteValue) + " Берем " + count);
             } else {
-                System.out.println("Не хватает купюр номиналом: " + banknoteValue);
+                System.out.println("Не хватает: " + banknoteValue);
             }
         }
         return sum;

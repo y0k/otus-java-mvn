@@ -2,14 +2,20 @@ package ru.otus.Hw6Atm;
 
 public class Test {
     public static void main(String[] args) {
-        Nominal[] newsum = {Nominal.TEN, Nominal.TEN, Nominal.HUNDRED, Nominal.HUNDRED, Nominal.FIFTY, Nominal.THOUSAND, Nominal.THOUSAND, Nominal.HUNDRED, Nominal.FIVE_HUNDRED};
+
         Atm atm = new Atm();
-        atm.insertMoney(newsum);
-        System.out.println("Всего средств: " + atm.totalMoney());
+
+        PrintAllMoney pr = new PrintAllMoney();
+
+        atm.InsertMoney(10, 4);
+        atm.InsertMoney(50, 4);
+        atm.InsertMoney(100, 3);
+        atm.InsertMoney(500, 1);
+        atm.InsertMoney(1000, 1);
         System.out.println("<>Нужно 20<>");
         atm.printMoney(20);
-        System.out.println("<>Нужно 90<>");
-        atm.printMoney(90);
+        System.out.println("<>Нужно 60<>");
+        atm.printMoney(60);
         System.out.println("<>Нужно 300<>");
         atm.printMoney(300);
         System.out.println("<>Нужно 1560<>");
@@ -17,10 +23,10 @@ public class Test {
         System.out.println("<>Нужно 499<>");
         atm.printMoney(499);
         System.out.println("<>Текущее состояние счета<>");
-        atm.printAllMoney();
-        System.out.println("<>Нужно 1000<>");
-        atm.printMoney(1000);
+        pr.printAllMoney(atm);
+        System.out.println("<>Нужно одной купюрой 100<>");
+        atm.printMoney(100);
         System.out.println("<>Текущее состояние счета<>");
-        atm.printAllMoney();
+        pr.printAllMoney(atm);
     }
 }
